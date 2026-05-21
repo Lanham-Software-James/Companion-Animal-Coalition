@@ -465,13 +465,11 @@ svg { display: block; flex-shrink: 0; }
 @media (min-width: 768px) {
   .hero__content {
     padding: 4rem 3rem 4rem 5vw;
-    max-width: 600px;
-    justify-self: end;
-    width: 100%;
   }
 }
 
 @media (min-width: 1280px) {
+  /* Align text with the container's left edge on very wide screens */
   .hero__content {
     padding: 5rem 4rem 5rem calc((100vw - var(--container-max)) / 2 + var(--container-pad-lg));
   }
