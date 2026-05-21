@@ -515,9 +515,7 @@ svg { display: block; flex-shrink: 0; }
 
 @media (min-width: 768px) {
   .pillars {
-    background: var(--color-white);
-    color: var(--color-text);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: none;
   }
 }
 
@@ -549,11 +547,11 @@ svg { display: block; flex-shrink: 0; }
 @media (min-width: 768px) {
   .pillars__item {
     padding: 2.5rem 2rem;
-    border-right: 1px solid var(--color-border);
+    border-right: 1px solid rgba(255,255,255,0.1);
     border-bottom: none;
     align-items: flex-start;
   }
-  .pillars__item:nth-child(even) { border-right: 1px solid var(--color-border); }
+  .pillars__item:nth-child(even) { border-right: 1px solid rgba(255,255,255,0.1); }
   .pillars__item:last-child { border-right: none; }
   .pillars__item:nth-last-child(-n+2) { border-bottom: none; }
 }
@@ -571,8 +569,8 @@ svg { display: block; flex-shrink: 0; }
 .pillars .pillars__icon { color: rgba(255,255,255,0.9); }
 
 @media (min-width: 768px) {
-  /* Desktop: green icons on white bg */
-  .pillars .pillars__icon { color: var(--color-primary); }
+  /* Desktop: white icons on green bg (same as mobile) */
+  .pillars .pillars__icon { color: rgba(255,255,255,0.9); }
 }
 
 .pillars__title {
@@ -590,7 +588,7 @@ svg { display: block; flex-shrink: 0; }
 }
 
 @media (min-width: 768px) {
-  .pillars__description { color: var(--color-text-mid); }
+  .pillars__description { color: rgba(255,255,255,0.75); }
 }
 
 /* ── Adoptable Pets Section ──────────────────────────────── */
