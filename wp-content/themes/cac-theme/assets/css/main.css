@@ -857,8 +857,6 @@ svg { display: block; flex-shrink: 0; }
   height: 60px;
   width: auto;
   margin-bottom: 1rem;
-  /* Invert the dark logo for the dark footer */
-  filter: invert(1) brightness(0.9);
 }
 .site-footer__site-name { font-size: 1.125rem; font-weight: 800; color: var(--color-white); margin-bottom: 0.75rem; }
 .site-footer__tagline { font-size: 0.875rem; font-weight: 600; color: var(--color-white); margin-bottom: 0.5rem; }
