@@ -1,0 +1,32 @@
+name: Deploy Theme to Lightsail
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'wp-content/themes/cac-theme/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Sync theme to Lightsail
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.LIGHTSAIL_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy theme via rsync
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            wp-content/themes/cac-theme/ \
+            admin@${{ secrets.LIGHTSAIL_HOST }}:/var/www/html/wp-content/themes/cac-theme/

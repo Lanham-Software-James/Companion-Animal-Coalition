@@ -9,6 +9,7 @@
 !README.md
 !docker-compose.yml
 !.env.example
+!.github/workflows/deploy.yml
 
 # Allow wp-content hierarchy
 !wp-content/
