@@ -287,7 +287,7 @@ svg { display: block; flex-shrink: 0; }
 /* Dropdown menus */
 .site-nav__list .sub-menu {
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   min-width: 200px;
@@ -295,7 +295,7 @@ svg { display: block; flex-shrink: 0; }
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--color-border);
-  padding: 0.5rem 0;
+  padding: 1rem 0 0.5rem; /* extra top padding replaces the gap that was breaking hover */
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition), transform var(--transition);
