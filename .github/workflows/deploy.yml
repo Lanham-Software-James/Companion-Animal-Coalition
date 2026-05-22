@@ -1,4 +1,4 @@
-name: Deploy Theme to Lightsail
+name: Deploy to Lightsail
 
 on:
   push:
@@ -6,11 +6,12 @@ on:
       - main
     paths:
       - 'wp-content/themes/cac-theme/**'
+      - 'wp-content/plugins/cac-shelterluv/**'
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Sync theme to Lightsail
+    name: Sync theme and cac-shelterluv plugin to Lightsail
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +31,10 @@ jobs:
             -e "ssh -i ~/.ssh/deploy_key" \
             wp-content/themes/cac-theme/ \
             admin@${{ secrets.LIGHTSAIL_HOST }}:/var/www/html/wp-content/themes/cac-theme/
+
+      - name: Deploy cac-shelterluv plugin via rsync
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            wp-content/plugins/cac-shelterluv/ \
+            admin@${{ secrets.LIGHTSAIL_HOST }}:/var/www/html/wp-content/plugins/cac-shelterluv/
