@@ -766,8 +766,14 @@ svg { display: block; flex-shrink: 0; }
 
 .get-involved__list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .get-involved__list {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (min-width: 1024px) {
