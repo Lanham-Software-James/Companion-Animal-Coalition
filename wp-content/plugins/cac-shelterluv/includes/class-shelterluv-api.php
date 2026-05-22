@@ -1,0 +1,138 @@
+<?php
+/**
+ * ShelterLuv API client.
+ *
+ * Responsible solely for HTTP requests to the ShelterLuv API.
+ * No display or WordPress hooks here — just data.
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+class CAC_ShelterLuv_API {
+
+    /** Transient TTL matches ShelterLuv's server-side cache refresh window. */
+    const CACHE_TTL = 30 * MINUTE_IN_SECONDS;
+
+    private string $api_key;
+    private string $api_url;
+
+    public function __construct() {
+        $this->api_key = $this->resolve_api_key();
+        $this->api_url = $this->resolve_api_url();
+    }
+
+    /**
+     * Constant in wp-config.php takes priority over the DB option so the key
+     * never needs to be stored in the database on production.
+     */
+    private function resolve_api_key(): string {
+        if ( defined( 'CAC_SHELTERLUV_API_KEY' ) && CAC_SHELTERLUV_API_KEY ) {
+            return (string) CAC_SHELTERLUV_API_KEY;
+        }
+        return (string) get_option( 'cac_shelterluv_api_key', '' );
+    }
+
+    /** CAC_SHELTERLUV_API_URL constant → DB option → empty (no built-in default). */
+    private function resolve_api_url(): string {
+        if ( defined( 'CAC_SHELTERLUV_API_URL' ) && CAC_SHELTERLUV_API_URL ) {
+            return esc_url_raw( rtrim( (string) CAC_SHELTERLUV_API_URL, '/' ) );
+        }
+        $saved = (string) get_option( 'cac_shelterluv_api_url', '' );
+        return '' !== $saved ? rtrim( $saved, '/' ) : '';
+    }
+
+    public function has_api_key(): bool {
+        return '' !== $this->api_key;
+    }
+
+    public function has_api_url(): bool {
+        return '' !== $this->api_url;
+    }
+
+    public function get_api_url(): string {
+        return $this->api_url;
+    }
+
+    /** Returns true when the key comes from a wp-config.php constant. */
+    public function key_is_constant(): bool {
+        return defined( 'CAC_SHELTERLUV_API_KEY' ) && CAC_SHELTERLUV_API_KEY;
+    }
+
+    /** Returns true when the API URL comes from a wp-config.php constant. */
+    public function url_is_constant(): bool {
+        return defined( 'CAC_SHELTERLUV_API_URL' ) && CAC_SHELTERLUV_API_URL;
+    }
+
+    /**
+     * Fetch publishable (adoptable) animals from ShelterLuv.
+     *
+     * Results are cached in a transient keyed by limit + offset so multiple
+     * callers with different pagination don't collide.
+     *
+     * @param int $limit  1–100
+     * @param int $offset Pagination offset
+     * @return array[]|WP_Error  Array of animal objects on success.
+     */
+    public function get_animals( int $limit = 8, int $offset = 0 ) {
+        $limit  = max( 1, min( 100, $limit ) );
+        $offset = max( 0, $offset );
+
+        $url_hash  = substr( md5( $this->api_url ), 0, 8 );
+        $cache_key = "cac_sl_animals_{$url_hash}_{$limit}_{$offset}";
+        $cached    = get_transient( $cache_key );
+        if ( false !== $cached ) {
+            return $cached;
+        }
+
+        $response = wp_remote_get(
+            add_query_arg(
+                [
+                    'status_type' => 'publishable',
+                    'limit'       => $limit,
+                    'offset'      => $offset,
+                ],
+                $this->api_url . '/animals'
+            ),
+            [
+                'headers' => [ 'x-api-key' => $this->api_key ],
+                'timeout' => 10,
+            ]
+        );
+
+        if ( is_wp_error( $response ) ) {
+            return $response;
+        }
+
+        $code = wp_remote_retrieve_response_code( $response );
+        if ( 200 !== (int) $code ) {
+            return new WP_Error(
+                'api_http_error',
+                /* translators: %d: HTTP status code */
+                sprintf( __( 'ShelterLuv API returned status %d.', 'cac-shelterluv' ), $code )
+            );
+        }
+
+        $body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+        if ( empty( $body['success'] ) ) {
+            return new WP_Error( 'api_failure', __( 'ShelterLuv API reported an unsuccessful response.', 'cac-shelterluv' ) );
+        }
+
+        $animals = $body['animals'] ?? [];
+
+        set_transient( $cache_key, $animals, self::CACHE_TTL );
+
+        return $animals;
+    }
+
+    /**
+     * Bust all cached animal transients.
+     * Called from the settings page "Clear Cache" button.
+     */
+    public function flush_cache(): void {
+        global $wpdb;
+        $wpdb->query(
+            "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_cac_sl_animals_%' OR option_name LIKE '_transient_timeout_cac_sl_animals_%'"
+        );
+    }
+}
