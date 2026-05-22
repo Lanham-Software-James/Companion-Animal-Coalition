@@ -13,8 +13,9 @@ defined( 'ABSPATH' ) || exit;
 
 class CAC_ShelterLuv_Settings {
 
-    const OPTION_KEY     = 'cac_shelterluv_api_key';
-    const OPTION_API_URL = 'cac_shelterluv_api_url';
+    const OPTION_KEY         = 'cac_shelterluv_api_key';
+    const OPTION_API_URL     = 'cac_shelterluv_api_url';
+    const OPTION_FETCH_COUNT = 'cac_shelterluv_fetch_count';
     const MENU_SLUG       = 'cac-shelterluv';
     const NONCE_ACTION    = 'cac_sl_save_settings';
     const NONCE_FLUSH     = 'cac_sl_flush_cache';
@@ -60,6 +61,13 @@ class CAC_ShelterLuv_Settings {
                 update_option( self::OPTION_API_URL, esc_url_raw( $raw_url ), false );
             } else {
                 delete_option( self::OPTION_API_URL );
+            }
+
+            $raw_count = isset( $_POST['cac_sl_fetch_count'] ) ? (int) $_POST['cac_sl_fetch_count'] : 0;
+            if ( $raw_count >= 1 && $raw_count <= 100 ) {
+                update_option( self::OPTION_FETCH_COUNT, $raw_count, false );
+            } elseif ( 0 === $raw_count ) {
+                delete_option( self::OPTION_FETCH_COUNT );
             }
 
             set_transient( 'cac_sl_admin_notice', 'saved', 30 );
@@ -185,6 +193,27 @@ class CAC_ShelterLuv_Settings {
                                 </p>
                             </td>
                         </tr>
+                    </table>
+
+                    <?php submit_button( __( 'Save Settings', 'cac-shelterluv' ) ); ?>
+                </form>
+
+                <?php if ( $key_in_db ) : ?>
+                    <form method="post" action="" style="margin-top: 0.5rem;">
+                        <?php wp_nonce_field( self::NONCE_ACTION ); ?>
+                        <input type="hidden" name="cac_sl_action" value="clear_key">
+                        <?php submit_button( __( 'Remove Saved Key', 'cac-shelterluv' ), 'delete', 'submit', false ); ?>
+                    </form>
+                <?php endif; ?>
+            <?php endif; ?>
+
+            <?php if ( $key_active ) : ?>
+                <hr>
+                <h2><?php esc_html_e( 'Carousel Settings', 'cac-shelterluv' ); ?></h2>
+                <form method="post" action="">
+                    <?php wp_nonce_field( self::NONCE_ACTION ); ?>
+                    <input type="hidden" name="cac_sl_action" value="save_key">
+                    <table class="form-table" role="presentation">
                         <tr>
                             <th scope="row">
                                 <label for="cac_sl_api_url"><?php esc_html_e( 'API Base URL', 'cac-shelterluv' ); ?></label>
@@ -207,7 +236,7 @@ class CAC_ShelterLuv_Settings {
                                         name="cac_sl_api_url"
                                         class="large-text"
                                         value="<?php echo esc_attr( $url_display ); ?>"
-                                        placeholder="https://api.shelterluv.com/v1"
+                                        placeholder="https://www.shelterluv.com/api/v1"
                                     />
                                     <p class="description">
                                         <?php esc_html_e( 'The ShelterLuv API base URL (without a trailing slash). The plugin appends /animals to fetch adoptable pets.', 'cac-shelterluv' ); ?>
@@ -215,21 +244,28 @@ class CAC_ShelterLuv_Settings {
                                 <?php endif; ?>
                             </td>
                         </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="cac_sl_fetch_count"><?php esc_html_e( 'Animals to Show', 'cac-shelterluv' ); ?></label>
+                            </th>
+                            <td>
+                                <input
+                                    type="number"
+                                    id="cac_sl_fetch_count"
+                                    name="cac_sl_fetch_count"
+                                    class="small-text"
+                                    value="<?php echo esc_attr( (int) get_option( self::OPTION_FETCH_COUNT, CAC_ShelterLuv_Carousel::DEFAULT_FETCH_COUNT ) ); ?>"
+                                    min="1"
+                                    max="100"
+                                />
+                                <p class="description">
+                                    <?php esc_html_e( 'Number of adoptable animals to load into the carousel (1–100). Default: 8.', 'cac-shelterluv' ); ?>
+                                </p>
+                            </td>
+                        </tr>
                     </table>
-
-                    <?php submit_button( __( 'Save API Key', 'cac-shelterluv' ) ); ?>
+                    <?php submit_button( __( 'Save Settings', 'cac-shelterluv' ) ); ?>
                 </form>
-
-                <?php if ( $key_in_db ) : ?>
-                    <form method="post" action="" style="margin-top: 0.5rem;">
-                        <?php wp_nonce_field( self::NONCE_ACTION ); ?>
-                        <input type="hidden" name="cac_sl_action" value="clear_key">
-                        <?php submit_button( __( 'Remove Saved Key', 'cac-shelterluv' ), 'delete', 'submit', false ); ?>
-                    </form>
-                <?php endif; ?>
-            <?php endif; ?>
-
-            <?php if ( $key_active ) : ?>
                 <hr>
                 <h2><?php esc_html_e( 'Cache', 'cac-shelterluv' ); ?></h2>
                 <p><?php esc_html_e( 'Animal data is cached for 30 minutes to match ShelterLuv\'s own refresh window. Clear the cache to force a fresh API request immediately.', 'cac-shelterluv' ); ?></p>

@@ -10,8 +10,7 @@ defined( 'ABSPATH' ) || exit;
 
 class CAC_ShelterLuv_Carousel {
 
-    /** Number of animals to request. JS/CSS shows 4 at a time; extras allow paging. */
-    const FETCH_COUNT = 8;
+    const DEFAULT_FETCH_COUNT = 8;
 
     private CAC_ShelterLuv_API $api;
 
@@ -44,7 +43,8 @@ class CAC_ShelterLuv_Carousel {
     }
 
     public function render(): void {
-        $animals = $this->api->get_animals( self::FETCH_COUNT );
+        $limit   = (int) get_option( 'cac_shelterluv_fetch_count', self::DEFAULT_FETCH_COUNT );
+        $animals = $this->api->get_animals( max( 1, min( 100, $limit ) ) );
 
         if ( is_wp_error( $animals ) ) {
             if ( current_user_can( 'manage_options' ) ) {
