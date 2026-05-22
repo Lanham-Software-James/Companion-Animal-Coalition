@@ -158,6 +158,43 @@ class CAC_ShelterLuv_API {
     }
 
     /**
+     * Fetch the complete set of publishable animals, paging through the API
+     * in batches of 100 until exhausted. The full list is cached as a single
+     * transient so filtering and sorting can happen entirely in PHP.
+     *
+     * @return array[]|WP_Error
+     */
+    public function get_all_animals() {
+        $url_hash  = substr( md5( $this->api_url ), 0, 8 );
+        $cache_key = "cac_sl_all_{$url_hash}";
+        $cached    = get_transient( $cache_key );
+        if ( false !== $cached ) {
+            return $cached;
+        }
+
+        $all    = [];
+        $batch  = 100;
+        $offset = 0;
+        $cap    = 500; // safety limit
+
+        while ( count( $all ) < $cap ) {
+            $result = $this->fetch_animals( $batch, $offset );
+            if ( is_wp_error( $result ) ) {
+                return $result;
+            }
+            $chunk = $result['animals'];
+            $all   = array_merge( $all, $chunk );
+            if ( count( $chunk ) < $batch ) {
+                break;
+            }
+            $offset += $batch;
+        }
+
+        set_transient( $cache_key, $all, self::CACHE_TTL );
+        return $all;
+    }
+
+    /**
      * Bust all cached animal transients.
      * Called from the settings page "Clear Cache" button.
      */

@@ -18,6 +18,104 @@
   }
 }
 
+/* ── Filter bar ────────────────────────────────────────────── */
+.cac-sl-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+  padding: 1.125rem 1.25rem;
+  background: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.5rem;
+}
+
+.cac-sl-filters__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+.cac-sl-filters__label {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-mid);
+  white-space: nowrap;
+}
+
+.cac-sl-filters__select {
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  background-color: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23777777' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.625rem center;
+  background-size: 1rem;
+  cursor: pointer;
+  transition: border-color var(--transition), background-color var(--transition);
+  width: 100%;
+}
+
+.cac-sl-filters__select:hover {
+  border-color: var(--color-text-mid);
+}
+
+.cac-sl-filters__select:focus-visible {
+  outline: 3px solid var(--color-primary-light);
+  outline-offset: 2px;
+  border-color: var(--color-primary);
+}
+
+/* Active filter state (JS adds .is-active) */
+.cac-sl-filters__select.is-active {
+  border-color: var(--color-primary);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23354A21' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* ── Filter actions (submit + clear) ───────────────────────── */
+.cac-sl-filters__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  align-self: flex-end;
+  padding-bottom: 1px; /* optical alignment with selects */
+}
+
+/* Hide the submit button when JS is active (auto-submit on change). */
+.cac-sl-filters--js .cac-sl-filters__submit {
+  display: none;
+}
+
+.cac-sl-filters__clear {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-text-mid);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.cac-sl-filters__clear:hover {
+  color: var(--color-primary);
+}
+
 /* ── "Showing X–Y of Z" summary line ──────────────────────── */
 .cac-sl-listing__summary {
   font-size: 0.875rem;
