@@ -74,14 +74,44 @@ class CAC_ShelterLuv_API {
      * @return array[]|WP_Error  Array of animal objects on success.
      */
     public function get_animals( int $limit = 8, int $offset = 0 ) {
+        $result = $this->fetch_animals( $limit, $offset );
+        if ( is_wp_error( $result ) ) {
+            return $result;
+        }
+        return $result['animals'];
+    }
+
+    /**
+     * Like get_animals() but also returns the total count for pagination.
+     *
+     * @param int $limit  1–100
+     * @param int $offset Pagination offset
+     * @return array{animals: array[], total_count: int}|WP_Error
+     */
+    public function get_animals_with_total( int $limit = 8, int $offset = 0 ) {
+        return $this->fetch_animals( $limit, $offset );
+    }
+
+    /**
+     * Internal: hit the API (or cache) and return animals + total_count.
+     *
+     * @return array{animals: array[], total_count: int}|WP_Error
+     */
+    private function fetch_animals( int $limit, int $offset ) {
         $limit  = max( 1, min( 100, $limit ) );
         $offset = max( 0, $offset );
 
         $url_hash  = substr( md5( $this->api_url ), 0, 8 );
         $cache_key = "cac_sl_animals_{$url_hash}_{$limit}_{$offset}";
         $cached    = get_transient( $cache_key );
+
         if ( false !== $cached ) {
-            return $cached;
+            // New cache format stores ['animals' => [], 'total_count' => N].
+            // Legacy entries are a plain animals array — convert on the fly.
+            if ( is_array( $cached ) && array_key_exists( 'animals', $cached ) ) {
+                return $cached;
+            }
+            return [ 'animals' => is_array( $cached ) ? $cached : [], 'total_count' => 0 ];
         }
 
         $response = wp_remote_get(
@@ -118,11 +148,13 @@ class CAC_ShelterLuv_API {
             return new WP_Error( 'api_failure', __( 'ShelterLuv API reported an unsuccessful response.', 'cac-shelterluv' ) );
         }
 
-        $animals = $body['animals'] ?? [];
+        $animals     = $body['animals'] ?? [];
+        $total_count = isset( $body['total_count'] ) ? (int) $body['total_count'] : count( $animals );
 
-        set_transient( $cache_key, $animals, self::CACHE_TTL );
+        $result = [ 'animals' => $animals, 'total_count' => $total_count ];
+        set_transient( $cache_key, $result, self::CACHE_TTL );
 
-        return $animals;
+        return $result;
     }
 
     /**
@@ -132,7 +164,7 @@ class CAC_ShelterLuv_API {
     public function flush_cache(): void {
         global $wpdb;
         $wpdb->query(
-            "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_cac_sl_animals_%' OR option_name LIKE '_transient_timeout_cac_sl_animals_%'"
+            "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_transient_cac_sl_%' OR option_name LIKE '_transient_timeout_cac_sl_%'"
         );
     }
 }

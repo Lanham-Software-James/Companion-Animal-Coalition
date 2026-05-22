@@ -1,0 +1,82 @@
+/* ============================================================
+   CAC ShelterLuv – Listing Styles
+   Extends pet-card and pagination base styles from the CAC theme.
+   ============================================================ */
+
+/* ── Listing wrapper ───────────────────────────────────────── */
+.cac-sl-listing {
+  padding-inline: var(--container-pad);
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .cac-sl-listing {
+    padding-inline: var(--container-pad-lg);
+  }
+}
+
+/* ── "Showing X–Y of Z" summary line ──────────────────────── */
+.cac-sl-listing__summary {
+  font-size: 0.875rem;
+  color: var(--color-text-mid);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Pagination row ────────────────────────────────────────── */
+.cac-sl-pagination {
+  margin-top: 2.5rem;
+}
+
+/* Ellipsis dots — no border, not interactive */
+.page-numbers.dots {
+  border-color: transparent;
+  background: none;
+  pointer-events: none;
+  min-width: auto;
+  padding: 0 0.25rem;
+}
+
+/* ── Card link (wraps entire card content) ─────────────────── */
+.pet-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+}
+
+.pet-card__link:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* ── Photo placeholder (no image from API) ─────────────────── */
+.pet-card__image--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-cream);
+  color: var(--color-border);
+  aspect-ratio: 4/3;
+  width: 100%;
+}
+
+/* ── Admin-only error / empty notices ──────────────────────── */
+.cac-sl-admin-notice {
+  padding: 0.75rem 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  color: #856404;
+}
+
+.cac-sl-empty {
+  text-align: center;
+  color: var(--color-text-mid);
+  font-size: 0.9375rem;
+  padding: 2rem 0;
+}
