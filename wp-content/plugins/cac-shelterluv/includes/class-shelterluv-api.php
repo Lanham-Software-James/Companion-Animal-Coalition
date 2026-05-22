@@ -158,6 +158,52 @@ class CAC_ShelterLuv_API {
     }
 
     /**
+     * Fetch a single animal by its Internal-ID.
+     *
+     * The endpoint returns the animal object directly (no success wrapper).
+     *
+     * @param string $internal_id The animal's Internal-ID field value.
+     * @return array|WP_Error
+     */
+    public function get_animal( string $internal_id ) {
+        $cache_key = 'cac_sl_a_' . preg_replace( '/[^a-z0-9]/i', '', $internal_id );
+        $cached    = get_transient( $cache_key );
+        if ( false !== $cached ) {
+            return $cached;
+        }
+
+        $response = wp_remote_get(
+            $this->api_url . '/animals/' . rawurlencode( $internal_id ),
+            [
+                'headers' => [ 'x-api-key' => $this->api_key ],
+                'timeout' => 10,
+            ]
+        );
+
+        if ( is_wp_error( $response ) ) {
+            return $response;
+        }
+
+        $code = wp_remote_retrieve_response_code( $response );
+        if ( 200 !== (int) $code ) {
+            return new WP_Error(
+                'api_http_error',
+                /* translators: %d: HTTP status code */
+                sprintf( __( 'ShelterLuv API returned status %d.', 'cac-shelterluv' ), $code )
+            );
+        }
+
+        $animal = json_decode( wp_remote_retrieve_body( $response ), true );
+
+        if ( empty( $animal ) || ! is_array( $animal ) || ! isset( $animal['Name'] ) ) {
+            return new WP_Error( 'api_no_data', __( 'Animal not found.', 'cac-shelterluv' ) );
+        }
+
+        set_transient( $cache_key, $animal, self::CACHE_TTL );
+        return $animal;
+    }
+
+    /**
      * Fetch the complete set of publishable animals, paging through the API
      * in batches of 100 until exhausted. The full list is cached as a single
      * transient so filtering and sorting can happen entirely in PHP.

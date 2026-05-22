@@ -1,0 +1,255 @@
+/* ============================================================
+   CAC ShelterLuv – Animal Detail Page Styles
+   ============================================================ */
+
+/* ── Outer wrapper ─────────────────────────────────────────── */
+.cac-sl-animal {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding-inline: var(--container-pad);
+  padding-top: 1.5rem;
+  padding-bottom: 4rem;
+  max-width: var(--container-max);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .cac-sl-animal {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    padding-inline: var(--container-pad-lg);
+    align-items: start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cac-sl-animal {
+    grid-template-columns: 3fr 2fr;
+    gap: 4rem;
+  }
+}
+
+/* ── Gallery ───────────────────────────────────────────────── */
+.cac-sl-animal__gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cac-sl-animal__main-wrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-cream);
+  aspect-ratio: 4 / 3;
+}
+
+.cac-sl-animal__main-wrap--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-border);
+}
+
+.cac-sl-animal__main-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 180ms ease;
+}
+
+.cac-sl-animal__main-photo.is-loading {
+  opacity: 0.4;
+}
+
+/* Thumbnail strip */
+.cac-sl-animal__thumbs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cac-sl-animal__thumb {
+  width: 4.5rem;
+  height: 3.375rem; /* 4:3 */
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: border-color var(--transition), opacity var(--transition);
+  flex-shrink: 0;
+}
+
+.cac-sl-animal__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cac-sl-animal__thumb:hover {
+  border-color: var(--color-primary-light);
+  opacity: 0.9;
+}
+
+.cac-sl-animal__thumb.is-active {
+  border-color: var(--color-primary);
+}
+
+.cac-sl-animal__thumb:focus-visible {
+  outline: 3px solid var(--color-primary-light);
+  outline-offset: 2px;
+}
+
+/* ── Details panel ─────────────────────────────────────────── */
+.cac-sl-animal__details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Name + status row */
+.cac-sl-animal__header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.cac-sl-animal__name {
+  font-size: clamp(1.625rem, 3.5vw, 2.25rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.cac-sl-animal__status {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: rgba(53, 74, 33, 0.1);
+  border-radius: 2rem;
+  padding: 0.25rem 0.75rem;
+  white-space: nowrap;
+}
+
+/* Key facts grid */
+.cac-sl-animal__meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.25rem;
+  margin: 0;
+}
+
+.cac-sl-animal__meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.cac-sl-animal__meta-item dt {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-mid);
+}
+
+.cac-sl-animal__meta-item dd {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.cac-sl-animal__meta-item dd s {
+  color: var(--color-text-light);
+  font-weight: 400;
+  margin-left: 0.25rem;
+}
+
+/* Attribute pills */
+.cac-sl-animal__attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cac-sl-animal__attribute {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--color-primary-dark);
+  background: rgba(53, 74, 33, 0.08);
+  border: 1px solid rgba(53, 74, 33, 0.2);
+  border-radius: 2rem;
+  padding: 0.3rem 0.75rem;
+}
+
+/* Description prose */
+.cac-sl-animal__description {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--color-text-mid);
+  border-top: 1px solid var(--color-border);
+  padding-top: 1.25rem;
+}
+
+.cac-sl-animal__description p { margin-bottom: 0.75rem; }
+.cac-sl-animal__description p:last-child { margin-bottom: 0; }
+
+/* Foster note */
+.cac-sl-animal__foster-note {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-text-mid);
+  margin: 0;
+}
+
+/* CTAs */
+.cac-sl-animal__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 0.5rem;
+}
+
+.cac-sl-animal__back {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-mid);
+  transition: color var(--transition);
+}
+
+.cac-sl-animal__back:hover { color: var(--color-primary); }
+
+/* ── Admin / empty notices (shared with other plugin styles) ── */
+.cac-sl-admin-notice {
+  padding: 0.75rem 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  color: #856404;
+}
+
+.cac-sl-empty {
+  text-align: center;
+  color: var(--color-text-mid);
+  font-size: 0.9375rem;
+  padding: 2rem 0;
+}

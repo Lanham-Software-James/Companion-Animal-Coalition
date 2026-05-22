@@ -16,6 +16,9 @@ class CAC_ShelterLuv_Settings {
     const OPTION_KEY         = 'cac_shelterluv_api_key';
     const OPTION_API_URL     = 'cac_shelterluv_api_url';
     const OPTION_FETCH_COUNT = 'cac_shelterluv_fetch_count';
+    const OPTION_DETAIL_PAGE  = 'cac_shelterluv_detail_page_id';
+    const OPTION_LISTING_PAGE = 'cac_shelterluv_listing_page_id';
+    const OPTION_ADOPT_URL    = 'cac_shelterluv_adopt_url';
     const MENU_SLUG       = 'cac-shelterluv';
     const NONCE_ACTION    = 'cac_sl_save_settings';
     const NONCE_FLUSH     = 'cac_sl_flush_cache';
@@ -68,6 +71,27 @@ class CAC_ShelterLuv_Settings {
                 update_option( self::OPTION_FETCH_COUNT, $raw_count, false );
             } elseif ( 0 === $raw_count ) {
                 delete_option( self::OPTION_FETCH_COUNT );
+            }
+
+            $raw_page_id = isset( $_POST['cac_sl_detail_page_id'] ) ? (int) $_POST['cac_sl_detail_page_id'] : 0;
+            if ( $raw_page_id > 0 ) {
+                update_option( self::OPTION_DETAIL_PAGE, $raw_page_id, false );
+            } else {
+                delete_option( self::OPTION_DETAIL_PAGE );
+            }
+
+            $raw_listing_page_id = isset( $_POST['cac_sl_listing_page_id'] ) ? (int) $_POST['cac_sl_listing_page_id'] : 0;
+            if ( $raw_listing_page_id > 0 ) {
+                update_option( self::OPTION_LISTING_PAGE, $raw_listing_page_id, false );
+            } else {
+                delete_option( self::OPTION_LISTING_PAGE );
+            }
+
+            $raw_adopt_url = isset( $_POST['cac_sl_adopt_url'] ) ? trim( $_POST['cac_sl_adopt_url'] ) : '';
+            if ( '' !== $raw_adopt_url ) {
+                update_option( self::OPTION_ADOPT_URL, esc_url_raw( $raw_adopt_url ), false );
+            } else {
+                delete_option( self::OPTION_ADOPT_URL );
             }
 
             set_transient( 'cac_sl_admin_notice', 'saved', 30 );
@@ -260,6 +284,62 @@ class CAC_ShelterLuv_Settings {
                                 />
                                 <p class="description">
                                     <?php esc_html_e( 'Number of adoptable animals to load into the carousel (1–100). Default: 8.', 'cac-shelterluv' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="cac_sl_detail_page_id"><?php esc_html_e( 'Animal Detail Page', 'cac-shelterluv' ); ?></label>
+                            </th>
+                            <td>
+                                <?php
+                                wp_dropdown_pages( [
+                                    'selected'          => get_option( self::OPTION_DETAIL_PAGE, 0 ),
+                                    'name'              => 'cac_sl_detail_page_id',
+                                    'id'                => 'cac_sl_detail_page_id',
+                                    'show_option_none'  => __( '— Select a page —', 'cac-shelterluv' ),
+                                    'option_none_value' => '0',
+                                ] );
+                                ?>
+                                <p class="description">
+                                    <?php esc_html_e( 'Page containing the [cac_animal_detail] shortcode. Animal cards will link here instead of going nowhere.', 'cac-shelterluv' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="cac_sl_listing_page_id"><?php esc_html_e( 'Adoptable Animals Page', 'cac-shelterluv' ); ?></label>
+                            </th>
+                            <td>
+                                <?php
+                                wp_dropdown_pages( [
+                                    'selected'          => get_option( self::OPTION_LISTING_PAGE, 0 ),
+                                    'name'              => 'cac_sl_listing_page_id',
+                                    'id'                => 'cac_sl_listing_page_id',
+                                    'show_option_none'  => __( '— Select a page —', 'cac-shelterluv' ),
+                                    'option_none_value' => '0',
+                                ] );
+                                ?>
+                                <p class="description">
+                                    <?php esc_html_e( 'Page containing the [cac_adoptable_animals] shortcode. Used for the "← All adoptable pets" back link on animal detail pages.', 'cac-shelterluv' ); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="cac_sl_adopt_url"><?php esc_html_e( 'Adoption Contact URL', 'cac-shelterluv' ); ?></label>
+                            </th>
+                            <td>
+                                <input
+                                    type="url"
+                                    id="cac_sl_adopt_url"
+                                    name="cac_sl_adopt_url"
+                                    class="large-text"
+                                    value="<?php echo esc_attr( get_option( self::OPTION_ADOPT_URL, '' ) ); ?>"
+                                    placeholder="https://example.com/adopt"
+                                />
+                                <p class="description">
+                                    <?php esc_html_e( 'URL shown as the "Adopt Me" button on animal detail pages. Leave blank to hide the button.', 'cac-shelterluv' ); ?>
                                 </p>
                             </td>
                         </tr>

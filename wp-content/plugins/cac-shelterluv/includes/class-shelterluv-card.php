@@ -11,27 +11,36 @@ defined( 'ABSPATH' ) || exit;
 class CAC_ShelterLuv_Card {
 
     public static function render( array $animal ): void {
-        $name      = $animal['Name']       ?? '';
-        $type      = $animal['Type']       ?? '';
-        $sex       = $animal['Sex']        ?? '';
-        $age_raw   = $animal['Age']        ?? null;
-        $photos    = $animal['Photos']     ?? [];
-        $photo_url = ! empty( $photos ) ? $photos[0] : '';
-        $profile   = $animal['ProfileUrl'] ?? '';
+        $name        = $animal['Name']        ?? '';
+        $type        = $animal['Type']        ?? '';
+        $sex         = $animal['Sex']         ?? '';
+        $age_raw     = $animal['Age']         ?? null;
+        $photos      = $animal['Photos']      ?? [];
+        $photo_url   = ! empty( $photos ) ? $photos[0] : '';
+        $internal_id = $animal['Internal-ID'] ?? '';
 
         $age_label = self::format_age( is_numeric( $age_raw ) ? (int) $age_raw : null );
 
         $card_label = $name
             /* translators: %s: pet name */
-            ? sprintf( __( "View %s's adoption profile", 'cac-shelterluv' ), $name )
-            : __( 'View adoption profile', 'cac-shelterluv' );
+            ? sprintf( __( "View %s's profile", 'cac-shelterluv' ), $name )
+            : __( 'View profile', 'cac-shelterluv' );
+
+        $detail_page_id = (int) get_option( 'cac_shelterluv_detail_page_id', 0 );
+        if ( $detail_page_id && $internal_id ) {
+            $href        = add_query_arg( 'animal_id', $internal_id, get_permalink( $detail_page_id ) );
+            $link_extras = '';
+        } else {
+            $href        = '#';
+            $link_extras = '';
+        }
         ?>
         <article class="pet-card">
             <a
-                href="<?php echo $profile ? esc_url( $profile ) : '#'; ?>"
+                href="<?php echo esc_url( $href ); ?>"
                 class="pet-card__link"
                 aria-label="<?php echo esc_attr( $card_label ); ?>"
-                <?php echo $profile ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>
+                <?php echo $link_extras; ?>
             >
                 <?php if ( $photo_url ) : ?>
                     <img
