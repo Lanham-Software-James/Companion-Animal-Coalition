@@ -181,9 +181,9 @@ class CAC_ShelterLuv_Listing {
         string $sort,
         bool $has_active
     ): void {
-        $show_type = count( $types ) > 1;
-        $show_sex  = count( $sexes ) > 1;
-        $show_age  = count( $ages )  > 1;
+        $show_type = count( $types ) >= 1;
+        $show_sex  = count( $sexes ) >= 1;
+        $show_age  = count( $ages )  >= 1;
 
         if ( ! $show_type && ! $show_sex && ! $show_age ) {
             // Only sort is available — render a minimal sort-only bar.
