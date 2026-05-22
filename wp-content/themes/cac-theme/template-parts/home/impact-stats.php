@@ -4,7 +4,7 @@
     <div class="container">
 
         <h2 class="impact-stats__heading" id="impact-stats-heading">
-            <?php esc_html_e( 'Making an Impact Together', 'cac-theme' ); ?>
+            <?php echo esc_html( get_theme_mod( 'cac_stats_heading', __( 'Making an Impact Together', 'cac-theme' ) ) ); ?>
         </h2>
 
         <ul class="impact-stats__list" role="list">

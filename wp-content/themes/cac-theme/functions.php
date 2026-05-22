@@ -107,10 +107,83 @@ function cac_customize_register( WP_Customize_Manager $wp_customize ) {
         'type'    => 'url',
     ] );
 
+    $wp_customize->add_setting( 'cac_hero_heading_line1', [
+        'default'           => __( 'Rescue.', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_hero_heading_line1', [
+        'label'   => __( 'Heading: Line 1', 'cac-theme' ),
+        'section' => 'cac_hero',
+    ] );
+
+    $wp_customize->add_setting( 'cac_hero_heading_line2', [
+        'default'           => __( 'Rehabilitate.', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_hero_heading_line2', [
+        'label'   => __( 'Heading: Line 2', 'cac-theme' ),
+        'section' => 'cac_hero',
+    ] );
+
+    $wp_customize->add_setting( 'cac_hero_heading_line3', [
+        'default'           => __( 'Rehome.', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_hero_heading_line3', [
+        'label'   => __( 'Heading: Line 3', 'cac-theme' ),
+        'section' => 'cac_hero',
+    ] );
+
+    $wp_customize->add_setting( 'cac_hero_heading_accent', [
+        'default'           => __( 'Repeat.', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_hero_heading_accent', [
+        'label'   => __( 'Heading: Accent Line (highlighted)', 'cac-theme' ),
+        'section' => 'cac_hero',
+    ] );
+
+    $wp_customize->add_setting( 'cac_hero_subtitle', [
+        'default'           => __( "We're building a community where every companion animal is valued, protected, and given the chance to thrive.", 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_hero_subtitle', [
+        'label'   => __( 'Subtitle', 'cac-theme' ),
+        'section' => 'cac_hero',
+        'type'    => 'textarea',
+    ] );
+
+    $wp_customize->add_setting( 'cac_hero_cta_adopt_label', [
+        'default'           => __( 'Adopt a Pet', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_hero_cta_adopt_label', [
+        'label'   => __( 'Adopt Button Label', 'cac-theme' ),
+        'section' => 'cac_hero',
+    ] );
+
+    $wp_customize->add_setting( 'cac_hero_cta_donate_label', [
+        'default'           => __( 'Donate Today', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_hero_cta_donate_label', [
+        'label'   => __( 'Donate Button Label', 'cac-theme' ),
+        'section' => 'cac_hero',
+    ] );
+
     // ── Impact Stats ──────────────────────
     $wp_customize->add_section( 'cac_stats', [
         'title'    => __( 'Impact Statistics', 'cac-theme' ),
         'priority' => 31,
+    ] );
+
+    $wp_customize->add_setting( 'cac_stats_heading', [
+        'default'           => __( 'Making an Impact Together', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_stats_heading', [
+        'label'   => __( 'Section Heading', 'cac-theme' ),
+        'section' => 'cac_stats',
     ] );
 
     $stats_defaults = [
@@ -140,10 +213,116 @@ function cac_customize_register( WP_Customize_Manager $wp_customize ) {
         ] );
     }
 
+    // ── Mission Pillars ───────────────────
+    $wp_customize->add_section( 'cac_pillars', [
+        'title'    => __( 'Mission Pillars', 'cac-theme' ),
+        'priority' => 32,
+    ] );
+
+    $pillars_defaults = [
+        1 => [ 'title' => 'Rescue',  'description' => 'We save animals in need and provide a safe place to heal.' ],
+        2 => [ 'title' => 'Rehab',   'description' => 'We provide medical care, nourishment, and love to help them recover.' ],
+        3 => [ 'title' => 'Rehome',  'description' => 'We match pets with loving families and support them every step of the way.' ],
+        4 => [ 'title' => 'Repeat',  'description' => 'Together, we break the cycle of homelessness — one life at a time.' ],
+    ];
+
+    for ( $i = 1; $i <= 4; $i++ ) {
+        $wp_customize->add_setting( "cac_pillar_{$i}_title", [
+            'default'           => $pillars_defaults[ $i ]['title'],
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "cac_pillar_{$i}_title", [
+            'label'   => sprintf( __( 'Pillar %d: Title', 'cac-theme' ), $i ),
+            'section' => 'cac_pillars',
+        ] );
+
+        $wp_customize->add_setting( "cac_pillar_{$i}_description", [
+            'default'           => $pillars_defaults[ $i ]['description'],
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "cac_pillar_{$i}_description", [
+            'label'   => sprintf( __( 'Pillar %d: Description', 'cac-theme' ), $i ),
+            'section' => 'cac_pillars',
+            'type'    => 'textarea',
+        ] );
+    }
+
+    // ── Get Involved Cards ────────────────
+    $wp_customize->add_section( 'cac_get_involved', [
+        'title'    => __( 'Get Involved Section', 'cac-theme' ),
+        'priority' => 33,
+    ] );
+
+    $wp_customize->add_setting( 'cac_get_involved_heading', [
+        'default'           => __( 'Get Involved', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_get_involved_heading', [
+        'label'   => __( 'Section Heading', 'cac-theme' ),
+        'section' => 'cac_get_involved',
+    ] );
+
+    $wp_customize->add_setting( 'cac_get_involved_subheading', [
+        'default'           => __( 'There are so many ways to help animals in need.', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_get_involved_subheading', [
+        'label'   => __( 'Section Subheading', 'cac-theme' ),
+        'section' => 'cac_get_involved',
+        'type'    => 'textarea',
+    ] );
+
+    $cards_defaults = [
+        1 => [ 'title' => 'Volunteer', 'description' => 'Give your time and skills to help care for animals and support our mission.',                   'link_text' => 'Learn More',      'link_url' => '/volunteer' ],
+        2 => [ 'title' => 'Foster',    'description' => 'Open your home temporarily to an animal in need while they await their forever family.',        'link_text' => 'Become a Foster', 'link_url' => '/foster'    ],
+        3 => [ 'title' => 'Donate',    'description' => 'Your financial support funds medical care, food, and shelter for animals in our care.',          'link_text' => 'Donate Now',      'link_url' => '/donate'    ],
+        4 => [ 'title' => 'Events',    'description' => 'Join us for adoption events, fundraisers, and community gatherings throughout the year.',        'link_text' => 'View Events',     'link_url' => '/events'    ],
+    ];
+
+    for ( $i = 1; $i <= 4; $i++ ) {
+        $wp_customize->add_setting( "cac_card_{$i}_title", [
+            'default'           => $cards_defaults[ $i ]['title'],
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "cac_card_{$i}_title", [
+            'label'   => sprintf( __( 'Card %d: Title', 'cac-theme' ), $i ),
+            'section' => 'cac_get_involved',
+        ] );
+
+        $wp_customize->add_setting( "cac_card_{$i}_description", [
+            'default'           => $cards_defaults[ $i ]['description'],
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "cac_card_{$i}_description", [
+            'label'   => sprintf( __( 'Card %d: Description', 'cac-theme' ), $i ),
+            'section' => 'cac_get_involved',
+            'type'    => 'textarea',
+        ] );
+
+        $wp_customize->add_setting( "cac_card_{$i}_link_text", [
+            'default'           => $cards_defaults[ $i ]['link_text'],
+            'sanitize_callback' => 'sanitize_text_field',
+        ] );
+        $wp_customize->add_control( "cac_card_{$i}_link_text", [
+            'label'   => sprintf( __( 'Card %d: Link Text', 'cac-theme' ), $i ),
+            'section' => 'cac_get_involved',
+        ] );
+
+        $wp_customize->add_setting( "cac_card_{$i}_link_url", [
+            'default'           => $cards_defaults[ $i ]['link_url'],
+            'sanitize_callback' => 'esc_url_raw',
+        ] );
+        $wp_customize->add_control( "cac_card_{$i}_link_url", [
+            'label'   => sprintf( __( 'Card %d: Link URL', 'cac-theme' ), $i ),
+            'section' => 'cac_get_involved',
+            'type'    => 'url',
+        ] );
+    }
+
     // ── Page CTA Banner ───────────────────
     $wp_customize->add_section( 'cac_page_cta', [
         'title'    => __( 'Page CTA Banner', 'cac-theme' ),
-        'priority' => 32,
+        'priority' => 34,
     ] );
 
     $wp_customize->add_setting( 'cac_page_cta_heading', [
