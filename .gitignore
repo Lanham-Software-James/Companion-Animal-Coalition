@@ -4,38 +4,37 @@
 # Allow directories so Git can traverse
 !*/
 
-# Allow git-related and project config files
-!.gitignore
-!README.md
-!docker-compose.yml
-!.env.example
-!.github/workflows/deploy.yml
+# Allow root-level project files (leading / anchors to repo root only)
+!/.gitignore
+!/README.md
+!/docker-compose.yml
+!/.env.example
+!/.github/workflows/deploy.yml
 
 # Allow wp-content hierarchy
 !wp-content/
 !wp-content/themes/
 !wp-content/themes/cac-theme/
-
-# Allow all files inside cac-theme
 !wp-content/themes/cac-theme/**
 
-# Explicitly ignore common unwanted files
-.DS_Store
-Thumbs.db
-*.log
-
-# Ignore environment/secrets
-.env
+# Allow cac-shelterluv plugin
+!wp-content/plugins/
+!wp-content/plugins/.gitignore
+!wp-content/plugins/cac-shelterluv/
+!wp-content/plugins/cac-shelterluv/**
 
 # Ignore uploads and WordPress generated content
 wp-content/uploads/
 wp-content/cache/
 wp-content/upgrade/
-wp-content/plugins/
 
-# Ignore node dependencies if using frontend tooling
+# Ignore node dependencies and build artifacts
 node_modules/
-
-# Ignore build artifacts
 dist/
 build/
+
+# Ignore OS and environment files
+.DS_Store
+Thumbs.db
+*.log
+.env

@@ -12,6 +12,7 @@ services:
       WORDPRESS_DB_PASSWORD: wppass
     volumes:
       - ./wp-content:/var/www/html/wp-content
+      - ./wp-config.php:/var/www/html/wp-config.php
     depends_on:
       - db
 
