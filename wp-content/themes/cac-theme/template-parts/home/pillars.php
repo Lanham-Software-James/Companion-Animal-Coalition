@@ -1,3 +1,19 @@
+<?php
+$pillars_defaults = [
+    1 => [ 'title' => 'Rescue',  'description' => 'We save animals in need and provide a safe place to heal.' ],
+    2 => [ 'title' => 'Rehab',   'description' => 'We provide medical care, nourishment, and love to help them recover.' ],
+    3 => [ 'title' => 'Rehome',  'description' => 'We match pets with loving families and support them every step of the way.' ],
+    4 => [ 'title' => 'Repeat',  'description' => 'Together, we break the cycle of homelessness — one life at a time.' ],
+];
+$pillars = [];
+for ( $i = 1; $i <= 4; $i++ ) {
+    $pillars[ $i ] = [
+        'title'       => get_theme_mod( "cac_pillar_{$i}_title",       $pillars_defaults[ $i ]['title'] ),
+        'description' => get_theme_mod( "cac_pillar_{$i}_description", $pillars_defaults[ $i ]['description'] ),
+    ];
+}
+?>
+
 <section class="pillars" aria-labelledby="pillars-heading">
     <h2 class="sr-only" id="pillars-heading"><?php esc_html_e( 'Our Mission', 'cac-theme' ); ?></h2>
 
@@ -14,9 +30,9 @@
                     <path d="M24 18c-8 0-14 6-11 14 1.5 3.5 5 6 11 6s9.5-2.5 11-6c3-8-3-14-11-14z"/>
                 </svg>
             </div>
-            <h3 class="pillars__title"><?php esc_html_e( 'Rescue', 'cac-theme' ); ?></h3>
+            <h3 class="pillars__title"><?php echo esc_html( $pillars[1]['title'] ); ?></h3>
             <p class="pillars__description">
-                <?php esc_html_e( 'We save animals in need and provide a safe place to heal.', 'cac-theme' ); ?>
+                <?php echo esc_html( $pillars[1]['description'] ); ?>
             </p>
         </li>
 
@@ -28,9 +44,9 @@
                     <line x1="18" y1="24" x2="30" y2="24"/>
                 </svg>
             </div>
-            <h3 class="pillars__title"><?php esc_html_e( 'Rehab', 'cac-theme' ); ?></h3>
+            <h3 class="pillars__title"><?php echo esc_html( $pillars[2]['title'] ); ?></h3>
             <p class="pillars__description">
-                <?php esc_html_e( 'We provide medical care, nourishment, and love to help them recover.', 'cac-theme' ); ?>
+                <?php echo esc_html( $pillars[2]['description'] ); ?>
             </p>
         </li>
 
@@ -41,9 +57,9 @@
                     <polyline points="18 44 18 26 30 26 30 44"/>
                 </svg>
             </div>
-            <h3 class="pillars__title"><?php esc_html_e( 'Rehome', 'cac-theme' ); ?></h3>
+            <h3 class="pillars__title"><?php echo esc_html( $pillars[3]['title'] ); ?></h3>
             <p class="pillars__description">
-                <?php esc_html_e( 'We match pets with loving families and support them every step of the way.', 'cac-theme' ); ?>
+                <?php echo esc_html( $pillars[3]['description'] ); ?>
             </p>
         </li>
 
@@ -56,9 +72,9 @@
                     <path d="M31 10.26a8 8 0 0 1 0 15.5"/>
                 </svg>
             </div>
-            <h3 class="pillars__title"><?php esc_html_e( 'Repeat', 'cac-theme' ); ?></h3>
+            <h3 class="pillars__title"><?php echo esc_html( $pillars[4]['title'] ); ?></h3>
             <p class="pillars__description">
-                <?php esc_html_e( 'Together, we break the cycle of homelessness — one life at a time.', 'cac-theme' ); ?>
+                <?php echo esc_html( $pillars[4]['description'] ); ?>
             </p>
         </li>
 
