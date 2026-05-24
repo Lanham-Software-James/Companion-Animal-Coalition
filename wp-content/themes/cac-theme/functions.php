@@ -568,6 +568,48 @@ EOT,
 }
 
 // ──────────────────────────────────────────
+// Page Meta Fields
+// ──────────────────────────────────────────
+add_action( 'init', 'cac_register_page_meta' );
+function cac_register_page_meta(): void {
+    register_post_meta( 'page', 'cac_page_subheader', [
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
+        'default'           => '',
+        'auth_callback'     => fn() => current_user_can( 'edit_posts' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+
+    register_post_meta( 'page', 'cac_page_intro', [
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
+        'default'           => '',
+        'auth_callback'     => fn() => current_user_can( 'edit_posts' ),
+        'sanitize_callback' => 'sanitize_textarea_field',
+    ] );
+
+    register_post_meta( 'page', 'cac_page_hero_btn_label', [
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
+        'default'           => '',
+        'auth_callback'     => fn() => current_user_can( 'edit_posts' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+
+    register_post_meta( 'page', 'cac_page_hero_btn_url', [
+        'show_in_rest'      => true,
+        'single'            => true,
+        'type'              => 'string',
+        'default'           => '',
+        'auth_callback'     => fn() => current_user_can( 'edit_posts' ),
+        'sanitize_callback' => 'esc_url_raw',
+    ] );
+}
+
+// ──────────────────────────────────────────
 // Template Helpers
 // ──────────────────────────────────────────
 
