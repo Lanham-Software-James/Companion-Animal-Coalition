@@ -18,10 +18,29 @@ if ( ! $img_alt ) {
             <?php the_title(); ?>
         </h1>
 
-        <?php if ( has_excerpt() ) : ?>
-            <p class="page-hero__intro">
-                <?php echo wp_kses_post( get_the_excerpt() ); ?>
+        <?php
+        $subheader = get_post_meta( get_the_ID(), 'cac_page_subheader', true );
+        if ( $subheader ) : ?>
+            <p class="page-hero__subheader">
+                <?php echo esc_html( $subheader ); ?>
             </p>
+        <?php endif; ?>
+
+        <?php
+        $intro = get_post_meta( get_the_ID(), 'cac_page_intro', true );
+        if ( $intro ) : ?>
+            <p class="page-hero__intro">
+                <?php echo esc_html( $intro ); ?>
+            </p>
+        <?php endif; ?>
+
+        <?php
+        $btn_label = get_post_meta( get_the_ID(), 'cac_page_hero_btn_label', true );
+        $btn_url   = get_post_meta( get_the_ID(), 'cac_page_hero_btn_url', true );
+        if ( $btn_label && $btn_url ) : ?>
+            <a href="<?php echo esc_url( $btn_url ); ?>" class="btn btn--primary page-hero__btn">
+                <?php echo esc_html( $btn_label ); ?>
+            </a>
         <?php endif; ?>
     </div>
 

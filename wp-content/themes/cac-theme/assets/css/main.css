@@ -1081,7 +1081,16 @@ svg { display: block; flex-shrink: 0; }
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--color-text);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.page-hero__subheader {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--color-primary);
+  max-width: 36ch;
+  margin-bottom: 0.875rem;
 }
 
 .page-hero__intro {
@@ -1090,6 +1099,8 @@ svg { display: block; flex-shrink: 0; }
   color: var(--color-text-mid);
   max-width: 44ch;
 }
+
+.page-hero__btn { margin-top: 1.5rem; }
 
 /* ── Page Body (Gutenberg content host) ──────────────────── */
 .page-body { overflow: hidden; }
