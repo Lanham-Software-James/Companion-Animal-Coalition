@@ -22,7 +22,6 @@ $donate_label   = get_theme_mod( 'cac_hero_cta_donate_label', __( 'Donate Today'
         <h1 class="hero__title">
             <?php echo esc_html( $line1 ); ?><br>
             <?php echo esc_html( $line2 ); ?><br>
-            <?php echo esc_html( $line3 ); ?><br>
             <span class="hero__title-accent"><?php echo esc_html( $accent ); ?></span>
         </h1>
 
