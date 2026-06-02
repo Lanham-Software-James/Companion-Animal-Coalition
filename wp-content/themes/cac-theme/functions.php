@@ -319,6 +319,59 @@ function cac_customize_register( WP_Customize_Manager $wp_customize ) {
         ] );
     }
 
+    // ── Footer Brand ─────────────────────
+    $wp_customize->add_section( 'cac_footer', [
+        'title'    => __( 'Footer', 'cac-theme' ),
+        'priority' => 35,
+    ] );
+
+    $wp_customize->add_setting( 'cac_footer_tagline', [
+        'default'           => __( 'Rescue. Rehabilitate. Rehome. Repeat.', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_footer_tagline', [
+        'label'   => __( 'Tagline', 'cac-theme' ),
+        'section' => 'cac_footer',
+    ] );
+
+    $wp_customize->add_setting( 'cac_footer_description', [
+        'default'           => __( 'Building a community where every companion animal is valued, protected, and given the chance to thrive.', 'cac-theme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ] );
+    $wp_customize->add_control( 'cac_footer_description', [
+        'label'   => __( 'Description', 'cac-theme' ),
+        'section' => 'cac_footer',
+        'type'    => 'textarea',
+    ] );
+
+    // Social icons
+    $socials = [
+        'facebook'  => 'Facebook',
+        'instagram' => 'Instagram',
+        'tiktok'    => 'TikTok',
+    ];
+    foreach ( $socials as $key => $label ) {
+        $wp_customize->add_setting( "cac_footer_{$key}_show", [
+            'default'           => true,
+            'sanitize_callback' => 'wp_validate_boolean',
+        ] );
+        $wp_customize->add_control( "cac_footer_{$key}_show", [
+            'label'   => sprintf( __( 'Show %s Icon', 'cac-theme' ), $label ),
+            'section' => 'cac_footer',
+            'type'    => 'checkbox',
+        ] );
+
+        $wp_customize->add_setting( "cac_footer_{$key}_url", [
+            'default'           => '#',
+            'sanitize_callback' => 'esc_url_raw',
+        ] );
+        $wp_customize->add_control( "cac_footer_{$key}_url", [
+            'label'   => sprintf( __( '%s URL', 'cac-theme' ), $label ),
+            'section' => 'cac_footer',
+            'type'    => 'url',
+        ] );
+    }
+
     // ── Page CTA Banner ───────────────────
     $wp_customize->add_section( 'cac_page_cta', [
         'title'    => __( 'Page CTA Banner', 'cac-theme' ),
