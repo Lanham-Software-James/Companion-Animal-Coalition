@@ -13,27 +13,33 @@
                         <p class="site-footer__site-name"><?php bloginfo( 'name' ); ?></p>
                     <?php endif; ?>
                     <p class="site-footer__tagline">
-                        <?php esc_html_e( 'Rescue. Rehabilitate. Rehome. Repeat.', 'cac-theme' ); ?>
+                        <?php echo esc_html( get_theme_mod( 'cac_footer_tagline', __( 'Rescue. Rehabilitate. Rehome. Repeat.', 'cac-theme' ) ) ); ?>
                     </p>
                     <p class="site-footer__description">
-                        <?php esc_html_e( 'Building a community where every companion animal is valued, protected, and given the chance to thrive.', 'cac-theme' ); ?>
+                        <?php echo esc_html( get_theme_mod( 'cac_footer_description', __( 'Building a community where every companion animal is valued, protected, and given the chance to thrive.', 'cac-theme' ) ) ); ?>
                     </p>
                     <div class="site-footer__social" aria-label="<?php esc_attr_e( 'Social media links', 'cac-theme' ); ?>">
-                        <a href="#" class="site-footer__social-link" aria-label="<?php esc_attr_e( 'Facebook', 'cac-theme' ); ?>">
+                        <?php if ( get_theme_mod( 'cac_footer_facebook_show', true ) ) : ?>
+                        <a href="<?php echo esc_url( get_theme_mod( 'cac_footer_facebook_url', '#' ) ); ?>" class="site-footer__social-link" aria-label="<?php esc_attr_e( 'Facebook', 'cac-theme' ); ?>">
                             <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
                                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                             </svg>
                         </a>
-                        <a href="#" class="site-footer__social-link" aria-label="<?php esc_attr_e( 'Instagram', 'cac-theme' ); ?>">
+                        <?php endif; ?>
+                        <?php if ( get_theme_mod( 'cac_footer_instagram_show', true ) ) : ?>
+                        <a href="<?php echo esc_url( get_theme_mod( 'cac_footer_instagram_url', '#' ) ); ?>" class="site-footer__social-link" aria-label="<?php esc_attr_e( 'Instagram', 'cac-theme' ); ?>">
                             <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
                                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
                             </svg>
                         </a>
-                        <a href="#" class="site-footer__social-link" aria-label="<?php esc_attr_e( 'TikTok', 'cac-theme' ); ?>">
+                        <?php endif; ?>
+                        <?php if ( get_theme_mod( 'cac_footer_tiktok_show', true ) ) : ?>
+                        <a href="<?php echo esc_url( get_theme_mod( 'cac_footer_tiktok_url', '#' ) ); ?>" class="site-footer__social-link" aria-label="<?php esc_attr_e( 'TikTok', 'cac-theme' ); ?>">
                             <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
                                 <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.31a8.16 8.16 0 0 0 4.77 1.52V7.38a4.85 4.85 0 0 1-1-.69z"/>
                             </svg>
                         </a>
+                        <?php endif; ?>
                     </div>
                 </div>
 
