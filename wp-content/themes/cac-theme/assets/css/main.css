@@ -431,7 +431,7 @@ svg { display: block; flex-shrink: 0; }
 
 @media (min-width: 768px) {
   .hero {
-    grid-template-columns: 45% 55%;
+    grid-template-columns: 58% 42%;
     grid-template-rows: none;
     min-height: calc(100svh - var(--nav-height));
     max-height: 760px;
@@ -464,7 +464,7 @@ svg { display: block; flex-shrink: 0; }
 
 @media (min-width: 768px) {
   .hero__content {
-    padding: 4rem 3rem 4rem 5vw;
+    padding: 4rem 3rem 4rem 2vw;
   }
 }
 
@@ -476,7 +476,7 @@ svg { display: block; flex-shrink: 0; }
 }
 
 .hero__title {
-  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-size: clamp(1.375rem, 3.25vw, 3.5rem);
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: -0.02em;
