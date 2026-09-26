@@ -1164,6 +1164,12 @@ svg { display: block; flex-shrink: 0; }
   display: inline-block !important;
 }
 
+/* About page: board names and titles on the primary-color panels. */
+.page-id-107 .page-body .has-primary-background-color h5.wp-block-heading,
+.page-id-107 .page-body .has-primary-background-color h6.wp-block-heading {
+  color: var(--color-white) !important;
+}
+
 /* Heading inside a content block column */
 .content-block .wp-block-column > h2,
 .content-block .wp-block-column > .wp-block-heading {
