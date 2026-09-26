@@ -836,7 +836,7 @@ svg { display: block; flex-shrink: 0; }
 .get-involved__link:hover { gap: 0.55rem; opacity: 0.8; }
 
 /* ── Site Footer ─────────────────────────────────────────── */
-.site-footer { background: #29213F; color: rgba(255,255,255,0.8); }
+.site-footer { background: #29263D; color: rgba(255,255,255,0.8); }
 
 .site-footer__main { padding: 4rem 0 3rem; }
 
