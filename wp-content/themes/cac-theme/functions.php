@@ -48,7 +48,7 @@ function cac_enqueue_assets() {
         'cac-main',
         get_template_directory_uri() . '/assets/css/main.css',
         [ 'cac-fonts' ],
-        '1.0.0'
+        '1.0.6'
     );
 
     wp_enqueue_script(

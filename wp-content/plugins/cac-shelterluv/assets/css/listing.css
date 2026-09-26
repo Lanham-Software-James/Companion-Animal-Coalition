@@ -75,15 +75,15 @@
 .cac-sl-filters__select:focus-visible {
   outline: 3px solid var(--color-primary-light);
   outline-offset: 2px;
-  border-color: var(--color-primary);
+  border-color: var(--color-primary-dark);
 }
 
 /* Active filter state (JS adds .is-active) */
 .cac-sl-filters__select.is-active {
-  border-color: var(--color-primary);
+  border-color: var(--color-primary-dark);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23354A21' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round' d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
   font-weight: 600;
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
 }
 
 /* ── Filter actions (submit + clear) ───────────────────────── */
@@ -113,7 +113,7 @@
 }
 
 .cac-sl-filters__clear:hover {
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
 }
 
 /* ── "Showing X–Y of Z" summary line ──────────────────────── */
