@@ -38,3 +38,30 @@ add_action( 'wp_enqueue_scripts', function () {
         );
     }
 }, 20 );
+
+// Cart and checkout are WordPress pages and share the themed commerce shell.
+add_filter( 'template_include', function ( $template ) {
+    if ( function_exists( 'is_checkout' ) && ( is_checkout() || is_cart() ) && ! is_embed() ) {
+        return get_template_directory() . '/template-parts/page/checkout.php';
+    }
+    return $template;
+} );
+
+add_action( 'wp_enqueue_scripts', function () {
+    if ( function_exists( 'is_checkout' ) && ( is_checkout() || is_cart() ) ) {
+        wp_enqueue_style(
+            'cac-checkout',
+            get_template_directory_uri() . '/assets/css/checkout.css',
+            [ 'cac-main' ],
+            (string) filemtime( get_template_directory() . '/assets/css/checkout.css' )
+        );
+        if ( is_cart() ) {
+            wp_enqueue_style(
+                'cac-cart',
+                get_template_directory_uri() . '/assets/css/cart.css',
+                [ 'cac-checkout' ],
+                (string) filemtime( get_template_directory() . '/assets/css/cart.css' )
+            );
+        }
+    }
+}, 30 );
