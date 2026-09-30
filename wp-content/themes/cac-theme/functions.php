@@ -769,3 +769,6 @@ function cac_body_classes( array $classes ): array {
     }
     return $classes;
 }
+
+// Shop archive and product detail layouts.
+require_once get_template_directory() . '/inc/woocommerce.php';
